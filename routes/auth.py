@@ -3,7 +3,7 @@ from models.user import User
 from extensions import db, mail
 from schemas.user_schema import UserSchema
 from utils.auth_utils import generate_access_token, generate_verification_token
-from flask_jwt_extended import create_access_token, decode_token
+from flask_jwt_extended import create_access_token, decode_token, jwt_required
 from utils.otp import generate_otp, send_otp_email, generate_and_store_otp, verify_otp
 from utils.jwt_utils import is_token_blacklisted, blacklist_token
 from flask_mail import Message
@@ -191,3 +191,14 @@ def verify_otp_route():
         return jsonify({"access_token": access_token}), 200
     else:
         return jsonify({"message": "Invalid or expired OTP"}), 401
+
+@auth_bp.route('/logout', methods=['POST'])
+@jwt_required()
+def logout():
+    """
+    Log out the user and blacklist the access token.
+    """
+    # Call the utility function to blacklist the token
+    blacklist_token()
+    
+    return jsonify({"message": "Successfully logged out"}), 200
