@@ -5,6 +5,7 @@ from schemas.user_schema import UserSchema
 from utils.auth_utils import generate_access_token, generate_verification_token
 from flask_jwt_extended import create_access_token, decode_token
 from utils.otp import generate_otp, send_otp_email, generate_and_store_otp, verify_otp
+from utils.jwt_utils import is_token_blacklisted, blacklist_token
 from flask_mail import Message
 from datetime import datetime, timedelta
 
@@ -95,8 +96,10 @@ def login():
 @auth_bp.route('/all', methods=['GET'])
 def all_users():
     users = User.query.all()
-    users_list = [user.to_dict() for user in users]
-    return jsonify(users_list)
+    if users:
+        users_list = [user.to_dict() for user in users]
+        return jsonify(users_list)
+    return jsonify("No users")
 
 @auth_bp.route('/request_otp', methods=['POST'])
 def request_otp():
