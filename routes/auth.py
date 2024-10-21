@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, current_app, url_for
 from models.user import User
 from extensions import db, mail
 from schemas.user_schema import UserSchema
-from services.auth_service import generate_access_token, generate_verification_token
+from utils.auth_utils import generate_access_token, generate_verification_token
 from flask_jwt_extended import create_access_token, decode_token
 from utils.otp import generate_otp, send_otp_email, generate_and_store_otp, verify_otp
 from flask_mail import Message
