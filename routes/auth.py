@@ -202,3 +202,25 @@ def logout():
     blacklist_token()
     
     return jsonify({"message": "Successfully logged out"}), 200
+
+@auth_bp.route('/delete', methods=['DELETE'])
+def delete_user():
+    data = request.get_json()
+    email = data.get('email')
+
+    if not email:
+        return jsonify({"message": "Email is required"}), 400
+
+    user = User.query.filter_by(email=email).first()
+    
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    try:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({"message": "User deleted successfully"}), 200
+    except Exception as e:
+        # Optional: log the error here for debugging
+        db.session.rollback()
+        return jsonify({"message": "An error occurred while deleting the user"}), 500

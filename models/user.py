@@ -11,6 +11,8 @@ class User(db.Model):
     password_hash = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     updated_at = db.Column(db.DateTime, onupdate=datetime.now(timezone.utc))
+    is_verified = db.Column(db.Boolean, default=False)
+    verification_token = db.Column(db.String(512), nullable=True)
 
     def to_dict(self):
         return {
