@@ -9,6 +9,8 @@ class Feed(db.Model):
     quantity = db.Column(db.Float, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     updated_at = db.Column(db.DateTime, onupdate=datetime.now(timezone.utc))
+    user_id = db.Column(db.String(36), db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', back_populates='feeds')
     
     def __repr__(self):
         return f'<Feed {self.name}>'
