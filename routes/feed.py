@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from extensions import db
 from models.feed import Feed
 from schemas.feed_schema import FeedSchema
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 feeds_bp = Blueprint('feeds', __name__)
 
@@ -30,17 +31,22 @@ def get_feed(id):
     return jsonify(feed_data), 200
 
 @feeds_bp.route('/feeds', methods=['POST'])
+@jwt_required()
 def add_feed():
     data = request.get_json()
+    user_id = get_jwt_identity()
     
     # Validate the input using the schema
     errors = feed_schema.validate(data)
     if errors:
         return jsonify(errors), 400
 
+    # Create a new feed with the updated fields
     new_feed = Feed(
-        title=data['title'],
-        content=data['content']
+        name=data['name'],
+        description=data.get('description'),  # Optional field
+        quantity=data['quantity'],
+        user_id=user_id
     )
     db.session.add(new_feed)
     db.session.commit()
@@ -62,9 +68,10 @@ def update_feed(id):
     if errors:
         return jsonify(errors), 400
 
-    # Update the feed
-    feed.title = data.get('title', feed.title)
-    feed.content = data.get('content', feed.content)
+    # Update the feed with the updated fields
+    feed.name = data.get('name', feed.name)
+    feed.description = data.get('description', feed.description)
+    feed.quantity = data.get('quantity', feed.quantity)
     db.session.commit()
 
     # Serialize the updated feed

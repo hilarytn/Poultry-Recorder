@@ -13,6 +13,7 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=datetime.now(timezone.utc))
     is_verified = db.Column(db.Boolean, default=False)
     verification_token = db.Column(db.String(512), nullable=True)
+    feeds = db.relationship("Feed", back_populates="user")
 
     def to_dict(self):
         return {
