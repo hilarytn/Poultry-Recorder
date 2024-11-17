@@ -11,14 +11,16 @@ feed_schema = FeedSchema()
 feeds_schema = FeedSchema(many=True)
 
 @feeds_bp.route('/feeds', methods=['GET'])
+@jwt_required()
 def get_feeds():
-    feeds = Feed.query.all()
+    user_id = get_jwt_identity()
+    feeds = Feed.query.filter_by(user_id=user_id).all()
     if not feeds:
         return jsonify({"message": "No feeds found"}), 404
 
-    # Serialize feeds using the schema
     feeds_data = feeds_schema.dump(feeds)
     return jsonify(feeds_data), 200
+
 
 @feeds_bp.route('/feeds/<id>', methods=['GET'])
 def get_feed(id):
