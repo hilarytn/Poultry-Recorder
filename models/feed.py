@@ -11,7 +11,7 @@ class Feed(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=datetime.now(timezone.utc))
     user_id = db.Column(db.String(36), db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', back_populates='feeds')
-    batches = db.relationship('Batch', back_populates='feeds', lazy=True)
+    batches = db.relationship('Batch', back_populates='feed', lazy=True)
     
     def __repr__(self):
         return f'<Feed {self.name}>'
