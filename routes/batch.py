@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify
 from extensions import db
 from models.batch import Batch
 from schemas.batch_schema import BatchSchema
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 batches_bp = Blueprint('batches', __name__)
 batch_schema = BatchSchema()
@@ -23,9 +24,11 @@ def get_batch(id):
     return jsonify(batch_schema.dump(batch)), 200
 
 # POST /batches - Create a new batch
-@batches_bp.route('/batches', methods=['POST'])
+@batches_bp.route('/batche/add', methods=['POST'])
+@jwt_required()
 def create_batch():
     data = request.get_json()
+    user_id = get_jwt_identity()
 
     # Validate input data
     errors = batch_schema.validate(data)
@@ -35,10 +38,7 @@ def create_batch():
     # Create a new batch
     new_batch = Batch(
         name=data['name'],
-        start_date=data.get('start_date'),
-        end_date=data.get('end_date'),
         quantity=data['quantity'],
-        status=data.get('status', 'active'),
         mortality=data['mortality'],
         feed_id=data.get('feed_id'),
         user_id=data['user_id'],
