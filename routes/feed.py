@@ -18,8 +18,11 @@ def get_feeds():
     if not feeds:
         return jsonify({"message": "No feeds found"}), 404
 
-    feeds_data = feeds_schema.dump(feeds)
+    # Serialize the feeds
+    feeds_data = feeds_schema.dump(feeds, many=True)
+
     return jsonify(feeds_data), 200
+
 
 
 @feeds_bp.route('/feeds/<id>', methods=['GET'])
