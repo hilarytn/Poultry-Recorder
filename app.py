@@ -2,6 +2,7 @@ from flask import Flask
 from extensions import db, jwt, migrate, mail, init_redis, init_cloudinary
 from routes.auth import auth_bp
 from routes.feed import feeds_bp
+from routes.batch import batches_bp
 from config import Config
 
 def create_app():
@@ -21,6 +22,7 @@ def create_app():
     # Register blueprints
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(feeds_bp, url_prefix='/poultry')
+    app.register_blueprint(batches_bp, url_prefix='/chicks')
     # app.register_blueprint(profile_bp, url_prefix='/profile')
     # app.register_blueprint(content_bp, url_prefix='/content')
 
