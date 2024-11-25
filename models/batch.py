@@ -12,6 +12,7 @@ class Batch(db.Model):
     mortality = db.Column(db.Integer, nullable=False)
     feed_id = db.Column(db.String(36), db.ForeignKey('feed.id'), nullable=True)
     user_id = db.Column(db.String(36), db.ForeignKey('user.id'), nullable=False)
+    batch_number = db.Column(db.String(50), nullable=False)
     feed = db.relationship('Feed', back_populates='batches')
     user = db.relationship('User', back_populates='batches')
     
