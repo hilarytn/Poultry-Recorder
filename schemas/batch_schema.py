@@ -10,3 +10,4 @@ class BatchSchema(Schema):
     mortality = fields.Integer(required=True, validate=validate.Range(min=0))  # Ensure non-negative values
     feed_id = fields.String(allow_none=True)
     user_id = fields.String(dump_only=True)
+    batch_number = fields.String(dump_only=True)

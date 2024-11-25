@@ -19,7 +19,7 @@ def get_user_batches():
     if not batches:
         return jsonify({"message": "No batches found for this user"}), 404
 
-    return jsonify(batches_schema.dump(batches)), 200
+    return jsonify(batches_schema.dump(batches, many=True)), 200
 
 
 @batches_bp.route('/batch/<id>', methods=['GET'])
