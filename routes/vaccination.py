@@ -12,7 +12,7 @@ vaccination_schema = VaccinationSchema()
 vaccinations_schema = VaccinationSchema(many=True)
 
 # GET /vaccinations - Retrieve all vaccinations for the authenticated user
-@vaccination_bp.route('/vaccinations', methods=['GET'])
+@vaccination_bp.route('/all', methods=['GET'])
 @jwt_required()
 def get_vaccinations():
     user_id = get_jwt_identity()
@@ -24,7 +24,7 @@ def get_vaccinations():
     return jsonify(vaccinations_schema.dump(vaccinations)), 200
 
 # GET /vaccinations/<id> - Retrieve details of a specific vaccination
-@vaccination_bp.route('/vaccinations/<id>', methods=['GET'])
+@vaccination_bp.route('/<id>', methods=['GET'])
 @jwt_required()
 def get_vaccination(id):
     user_id = get_jwt_identity()
@@ -36,7 +36,7 @@ def get_vaccination(id):
     return jsonify(vaccination_schema.dump(vaccination)), 200
 
 # POST /vaccinations - Add a new vaccination
-@vaccination_bp.route('/vaccinations', methods=['POST'])
+@vaccination_bp.route('/add', methods=['POST'])
 @jwt_required()
 def add_vaccination():
     user_id = get_jwt_identity()

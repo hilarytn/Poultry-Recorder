@@ -10,7 +10,7 @@ batches_bp = Blueprint('batches', __name__)
 batch_schema = BatchSchema()
 batches_schema = BatchSchema(many=True)
 
-@batches_bp.route('/batches', methods=['GET'])
+@batches_bp.route('/all', methods=['GET'])
 @jwt_required()
 def get_user_batches():
     user_id = get_jwt_identity()  # Get the current user's ID from the JWT
