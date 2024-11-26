@@ -15,6 +15,7 @@ class User(db.Model):
     verification_token = db.Column(db.String(512), nullable=True)
     feeds = db.relationship("Feed", back_populates="user")
     batches = db.relationship("Batch", back_populates='user', lazy=True)
+    vaccinations = db.relationship('Vaccination', back_populates='user', lazy=True)
 
     def to_dict(self):
         return {

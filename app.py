@@ -23,6 +23,7 @@ def create_app():
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(feeds_bp, url_prefix='/poultry')
     app.register_blueprint(batches_bp, url_prefix='/chicks')
+    app.register_blueprint(vaccination_bp, url_prefix='/vaccination')
     # app.register_blueprint(profile_bp, url_prefix='/profile')
     # app.register_blueprint(content_bp, url_prefix='/content')
 

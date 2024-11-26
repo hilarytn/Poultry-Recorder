@@ -102,8 +102,10 @@ def update_batch(id):
 
 # DELETE /batches/<id> - Delete a batch
 @batches_bp.route('/batch/<id>', methods=['DELETE'])
+@jwt_required()
 def delete_batch(id):
-    batch = Batch.query.get(id)
+    user_id = get_jwt_identity()
+    batch = Batch.query.filter_by(user_id=user_id).first()
     if not batch:
         return jsonify({"message": "Batch not found"}), 404
 

@@ -15,6 +15,7 @@ class Batch(db.Model):
     batch_number = db.Column(db.String(50), nullable=False)
     feed = db.relationship('Feed', back_populates='batches')
     user = db.relationship('User', back_populates='batches')
+    vaccinations = db.relationship('Vaccination', back_populates='batch', lazy=True)
     
     def __repr__(self):
         return f'<Batch {self.name}>'
