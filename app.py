@@ -3,6 +3,7 @@ from extensions import db, jwt, migrate, mail, init_redis, init_cloudinary
 from routes.auth import auth_bp
 from routes.feed import feeds_bp
 from routes.batch import batches_bp
+from routes.vaccination import vaccination_bp
 from config import Config
 
 def create_app():
