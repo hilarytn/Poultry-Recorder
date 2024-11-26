@@ -64,7 +64,7 @@ def add_vaccination():
     return jsonify(vaccination_schema.dump(vaccination)), 201
 
 # PUT /vaccinations/<id> - Update an existing vaccination
-@vaccination_bp.route('/vaccinations/<id>', methods=['PUT'])
+@vaccination_bp.route('/<id>/update', methods=['PUT'])
 @jwt_required()
 def update_vaccination(id):
     user_id = get_jwt_identity()
@@ -85,7 +85,7 @@ def update_vaccination(id):
     return jsonify(vaccination_schema.dump(vaccination)), 200
 
 # DELETE /vaccinations/<id> - Delete a vaccination
-@vaccination_bp.route('/vaccinations/<id>', methods=['DELETE'])
+@vaccination_bp.route('/<id>/delete', methods=['DELETE'])
 @jwt_required()
 def delete_vaccination(id):
     user_id = get_jwt_identity()
