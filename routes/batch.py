@@ -22,7 +22,7 @@ def get_user_batches():
     return jsonify(batches_schema.dump(batches, many=True)), 200
 
 
-@batches_bp.route('/batch/<id>', methods=['GET'])
+@batches_bp.route('/<id>', methods=['GET'])
 @jwt_required()
 def get_batch(id):
     user_id = get_jwt_identity()
@@ -34,7 +34,7 @@ def get_batch(id):
     return jsonify(batch_schema.dump(batch)), 200
 
 # POST /batches - Create a new batch
-@batches_bp.route('/batch/add', methods=['POST'])
+@batches_bp.route('/add', methods=['POST'])
 @jwt_required()
 def create_batch():
     data = request.get_json()
@@ -75,7 +75,7 @@ def create_batch():
     return jsonify({"message": "Batch created successfully", "batch": batch_schema.dump(new_batch)}), 201
 
 # PUT /batches/<id> - Update a batch
-@batches_bp.route('/batch/<id>', methods=['PUT'])
+@batches_bp.route('/<id>', methods=['PUT'])
 def update_batch(id):
     batch = Batch.query.get(id)
     if not batch:
@@ -101,7 +101,7 @@ def update_batch(id):
     return jsonify({"message": "Batch updated successfully", "batch": batch_schema.dump(batch)}), 200
 
 # DELETE /batches/<id> - Delete a batch
-@batches_bp.route('/batch/<id>', methods=['DELETE'])
+@batches_bp.route('/<id>', methods=['DELETE'])
 @jwt_required()
 def delete_batch(id):
     user_id = get_jwt_identity()
