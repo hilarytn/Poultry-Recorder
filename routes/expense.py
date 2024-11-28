@@ -18,7 +18,7 @@ def get_expenses():
     return jsonify(expenses_schema.dump(expenses)), 200
 
 # GET /expenses/<id> - Retrieve details for a specific expense
-@expenses_bp.route('/expenses/<id>', methods=['GET'])
+@expenses_bp.route('/<id>', methods=['GET'])
 @jwt_required()
 def get_expense(id):
     user_id = get_jwt_identity()
