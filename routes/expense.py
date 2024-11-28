@@ -15,6 +15,8 @@ expenses_schema = ExpenseSchema(many=True)
 def get_expenses():
     user_id = get_jwt_identity()
     expenses = Expense.query.filter_by(user_id=user_id).all()
+    if not expenses:
+        return jsonify({"message": "Expense not found"}), 404
     return jsonify(expenses_schema.dump(expenses)), 200
 
 # GET /expenses/<id> - Retrieve details for a specific expense
