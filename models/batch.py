@@ -16,6 +16,8 @@ class Batch(db.Model):
     feed = db.relationship('Feed', back_populates='batches')
     user = db.relationship('User', back_populates='batches')
     vaccinations = db.relationship('Vaccination', back_populates='batch', lazy=True)
+    expenses = db.relationship('Expense', back_populates='batch', cascade='all, delete-orphan')
+
     
     def __repr__(self):
         return f'<Batch {self.name}>'

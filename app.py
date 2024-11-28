@@ -25,6 +25,7 @@ def create_app():
     app.register_blueprint(feeds_bp, url_prefix='/poultry')
     app.register_blueprint(batches_bp, url_prefix='/batch')
     app.register_blueprint(vaccination_bp, url_prefix='/vaccination')
+    app.register_blueprint(expense_bp, url_prefix='/expense')
     # app.register_blueprint(profile_bp, url_prefix='/profile')
     # app.register_blueprint(content_bp, url_prefix='/content')
 
