@@ -10,7 +10,7 @@ expense_schema = ExpenseSchema()
 expenses_schema = ExpenseSchema(many=True)
 
 # GET /expenses - Retrieve all expenses (general and batch-specific)
-@expenses_bp.route('/expenses', methods=['GET'])
+@expenses_bp.route('/all', methods=['GET'])
 @jwt_required()
 def get_expenses():
     user_id = get_jwt_identity()
