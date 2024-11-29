@@ -5,6 +5,7 @@ from routes.feed import feeds_bp
 from routes.batch import batches_bp
 from routes.vaccination import vaccination_bp
 from routes.expense import expenses_bp
+from routes.customer import customers_bp
 from config import Config
 
 def create_app():
@@ -27,6 +28,7 @@ def create_app():
     app.register_blueprint(batches_bp, url_prefix='/batch')
     app.register_blueprint(vaccination_bp, url_prefix='/vaccination')
     app.register_blueprint(expenses_bp, url_prefix='/expense')
+    app.register_blueprint(customers_bp, url_prefix='/customer')
     # app.register_blueprint(profile_bp, url_prefix='/profile')
     # app.register_blueprint(content_bp, url_prefix='/content')
 

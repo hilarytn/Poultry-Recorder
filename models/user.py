@@ -17,6 +17,7 @@ class User(db.Model):
     batches = db.relationship("Batch", back_populates='user', lazy=True)
     vaccinations = db.relationship('Vaccination', back_populates='user', lazy=True)
     expenses = db.relationship('Expense', back_populates='user', lazy=True, cascade="all, delete-orphan")
+    customers = db.relationship('Customer', back_populates='user', cascade="all, delete-orphan")
 
     def to_dict(self):
         return {
