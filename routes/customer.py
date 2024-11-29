@@ -39,20 +39,32 @@ def get_customer(id):
 @customers_bp.route('/add', methods=['POST'])
 @jwt_required()
 def add_customer():
-    user_id = get_jwt_identity()
     data = request.get_json()
-    data['user_id'] = user_id
+    user_id = get_jwt_identity()
 
-    customer_data = customer_schema.load(data)
-    new_customer = Customer(**customer_data)
+    # Validate the input using the schema
+    errors = customer_schema.validate(data)
+    if errors:
+        return jsonify(errors), 400
 
+    # Create a new customer with the provided data
+    new_customer = Customer(
+        name=data['name'],
+        email=data.get('email'),
+        phone=data['phone'],
+        address=data.get('address'),
+        user_id=user_id
+    )
     db.session.add(new_customer)
     db.session.commit()
 
-    return jsonify(customer_schema.dump(new_customer)), 201
+    # Serialize the newly created customer
+    customer_data = customer_schema.dump(new_customer)
+    return jsonify({"message": "Customer added successfully", "customer": customer_data}), 201
 
 
-@customers_bp.route('/customers/<id>', methods=['PUT'])
+
+@customers_bp.route('/<id>', methods=['PUT'])
 @jwt_required()
 def update_customer(id):
     user_id = get_jwt_identity()
