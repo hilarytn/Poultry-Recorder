@@ -9,17 +9,17 @@ expenses_bp = Blueprint('expenses', __name__)
 expense_schema = ExpenseSchema()
 expenses_schema = ExpenseSchema(many=True)
 
-# GET /expenses - Retrieve all expenses (general and batch-specific)
+# GET /expense - Retrieve all expenses (general and batch-specific)
 @expenses_bp.route('/all', methods=['GET'])
 @jwt_required()
 def get_expenses():
     user_id = get_jwt_identity()
     expenses = Expense.query.filter_by(user_id=user_id).all()
     if not expenses:
-        return jsonify({"message": "Expense not found"}), 404
+        return jsonify({"message": "No expenses yet"}), 404
     return jsonify(expenses_schema.dump(expenses)), 200
 
-# GET /expenses/<id> - Retrieve details for a specific expense
+# GET /expense/<id> - Retrieve details for a specific expense
 @expenses_bp.route('/<id>', methods=['GET'])
 @jwt_required()
 def get_expense(id):
@@ -30,7 +30,7 @@ def get_expense(id):
     return jsonify(expense_schema.dump(expense)), 200
 
 # POST /expenses - Add a new expense
-@expenses_bp.route('/expenses', methods=['POST'])
+@expenses_bp.route('/add', methods=['POST'])
 @jwt_required()
 def create_expense():
     user_id = get_jwt_identity()
