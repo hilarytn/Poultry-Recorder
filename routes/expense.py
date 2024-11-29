@@ -29,6 +29,20 @@ def get_expense(id):
         return jsonify({"message": "Expense not found"}), 404
     return jsonify(expense_schema.dump(expense)), 200
 
+# GET /expenses/batch/<batch_id> - Retrieve all expenses for a specific batch
+@expenses_bp.route('/batch/<batch_id>', methods=['GET'])
+@jwt_required()
+def get_batch_expenses(batch_id):
+    user_id = get_jwt_identity()  # Ensure the user is authenticated
+    # Fetch all expenses for the specified batch and user
+    expenses = Expense.query.filter_by(batch_id=batch_id, user_id=user_id).all()
+
+    if not expenses:
+        return jsonify({"message": "No expenses found for this batch"}), 404
+
+    return jsonify(expenses_schema.dump(expenses, many=True)), 200
+
+
 # POST /expenses - Add a new expense
 @expenses_bp.route('/add', methods=['POST'])
 @jwt_required()
@@ -53,7 +67,7 @@ def create_expense():
     return jsonify(expense_schema.dump(new_expense)), 201
 
 # PUT /expenses/<id> - Update an existing expense
-@expenses_bp.route('/expenses/<id>', methods=['PUT'])
+@expenses_bp.route('/<id>', methods=['PUT'])
 @jwt_required()
 def update_expense(id):
     user_id = get_jwt_identity()
@@ -75,7 +89,7 @@ def update_expense(id):
     return jsonify(expense_schema.dump(expense)), 200
 
 # DELETE /expenses/<id> - Delete an expense
-@expenses_bp.route('/expenses/<id>', methods=['DELETE'])
+@expenses_bp.route('/<id>', methods=['DELETE'])
 @jwt_required()
 def delete_expense(id):
     user_id = get_jwt_identity()
