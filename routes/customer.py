@@ -84,7 +84,7 @@ def update_customer(id):
     return jsonify(customer_schema.dump(customer)), 200
 
 
-@customers_bp.route('/customers/<id>', methods=['DELETE'])
+@customers_bp.route('/<id>', methods=['DELETE'])
 @jwt_required()
 def delete_customer(id):
     user_id = get_jwt_identity()
