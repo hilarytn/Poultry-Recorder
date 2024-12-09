@@ -10,7 +10,7 @@ class Sale(db.Model):
     total_amount = db.Column(db.Float, nullable=False)
     sale_date = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     batch_id = db.Column(db.String(36), db.ForeignKey('batches.id'), nullable=True)
-    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False) 
+    user_id = db.Column(db.String(36), db.ForeignKey('user.id'), nullable=False) 
     batch = db.relationship('Batch', back_populates='sales')
     user = db.relationship('User', back_populates='sales')
 
