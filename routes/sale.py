@@ -45,3 +45,15 @@ def add_sale():
     # Serialize the newly created sale
     sale_data = sale_schema.dump(new_sale)
     return jsonify({"message": "Sale added successfully", "sale": sale_data}), 201
+
+@sales_bp.route('/all', methods=['GET'])
+@jwt_required()
+def get_sales():
+    user_id = get_jwt_identity() 
+    sales = Sale.query.filter_by(user_id=user_id).all()
+
+    if not sales:
+        return jsonify({"message": "No sales found"}), 404
+
+    sales_data = sales_schema.dump(sales, many=True)
+    return jsonify({"sales": sales_data}), 200
